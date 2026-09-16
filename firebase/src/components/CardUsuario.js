@@ -357,5 +357,4 @@ const styles =
  
       fontWeight: 'bold',
     },
-  });
- 
+  });  
