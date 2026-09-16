@@ -1,4 +1,5 @@
 import React from 'react';
+ 
 import {
   ActivityIndicator,
   StyleSheet,
@@ -17,10 +18,14 @@ import Add from '../screen/Add';
 import Home from '../screen/Home';
 import Login from '../screen/Login';
 import Register from '../screen/Register';
+import EditUsuario from '../screen/EditUsuario';
  
-import { useAuth } from '../hooks/useAuth';
+import {
+  useAuth,
+} from '../hooks/useAuth';
  
-const Stack = createNativeStackNavigator();
+const Stack =
+  createNativeStackNavigator();
  
 const Navigation = () => {
   const {
@@ -30,7 +35,11 @@ const Navigation = () => {
  
   if (loading) {
     return (
-      <View style={styles.loadingContainer}>
+      <View
+        style={
+          styles.loadingContainer
+        }
+      >
         <ActivityIndicator
           size="large"
           color="#0288d1"
@@ -56,7 +65,19 @@ const Navigation = () => {
             component={Add}
             options={{
               presentation: 'modal',
-              title: 'Agregar estudiante',
+              title:
+                'Agregar estudiante',
+            }}
+          />
+ 
+          <Stack.Screen
+            name="EditUsuario"
+            component={
+              EditUsuario
+            }
+            options={{
+              title:
+                'Editar estudiante',
             }}
           />
         </Stack.Navigator>
@@ -83,12 +104,13 @@ const Navigation = () => {
  
 export default Navigation;
  
-const styles = StyleSheet.create({
-  loadingContainer: {
-    flex: 1,
-    alignItems: 'center',
-    justifyContent: 'center',
-    backgroundColor: '#fff',
-  },
-});
+const styles =
+  StyleSheet.create({
+    loadingContainer: {
+      flex: 1,
+      alignItems: 'center',
+      justifyContent: 'center',
+      backgroundColor: '#fff',
+    },
+  });
  
