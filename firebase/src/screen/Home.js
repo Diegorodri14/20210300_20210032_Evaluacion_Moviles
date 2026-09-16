@@ -189,7 +189,7 @@ const styles = StyleSheet.create({
     fontSize: 18,
     fontWeight: 'bold',
     textAlign: 'center',
-    color: '#ff9800',
+    color: 'rgb(242, 125, 23)',
   },
  
   button: {

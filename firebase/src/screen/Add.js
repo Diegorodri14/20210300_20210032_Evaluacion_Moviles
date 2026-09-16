@@ -209,7 +209,7 @@ export default Add;
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: '#5E6973',
+    backgroundColor: '#60747a',
   },
  
   scrollContent: {

@@ -91,7 +91,7 @@ const styles = StyleSheet.create({
     padding: 24,
   },
   card: {
-    backgroundColor: '#73DFB6',
+    backgroundColor: '#6ABEA7',
     borderRadius: 18,
     padding: 24,
     elevation: 4,
@@ -103,11 +103,11 @@ const styles = StyleSheet.create({
     fontSize: 28,
     fontWeight: 'bold',
     textAlign: 'center',
-    color: '#5E6973',
+    color: '#ffffff',
   },
   subtitle: {
     textAlign: 'center',
-    color: '#60477A',
+    color: '#ffffff',
     marginTop: 6,
     marginBottom: 24,
   },
@@ -121,7 +121,7 @@ const styles = StyleSheet.create({
     marginBottom: 14,
   },
   primaryButton: {
-    backgroundColor: '#0288d1',
+    backgroundColor: '#73DFB6',
     borderRadius: 10,
     paddingVertical: 14,
     alignItems: 'center',
