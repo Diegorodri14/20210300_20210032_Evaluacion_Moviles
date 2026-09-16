@@ -1,7 +1,7 @@
 import { deleteDoc, doc, updateDoc } from 'firebase/firestore';
 import { database } from '../config/firebase';
 
-export const useProductActions = () => {
+export const useUsuarioActions = () => {
   const removeUser = async (id) => {
     await deleteDoc(doc(database, 'usuarios', id));
   };

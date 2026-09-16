@@ -1,9 +1,9 @@
 import React from 'react';
 import { Alert, StyleSheet, Text, TouchableOpacity, View } from 'react-native';
-import { useProductActions } from '../hooks/useProductActions';
+import { useUsuarioActions } from '../hooks/useUsuarioActions';
 
 const CardUsuario = ({ id, nombre, fecha, carnet, URL }) => {
-  const { removeUsuario } = useProductActions();
+  const { removeUsuario } = useUsuarioActions();
 
   const handleDelete = () => {
     Alert.alert('Eliminar usuario', `¿Deseas eliminar "${nombre}"?`, [
