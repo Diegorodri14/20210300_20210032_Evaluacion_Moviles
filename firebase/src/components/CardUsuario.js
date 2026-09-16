@@ -1,4 +1,5 @@
 import React from 'react';
+ 
 import {
   Alert,
   Image,
@@ -7,7 +8,10 @@ import {
   TouchableOpacity,
   View,
 } from 'react-native';
-import { useUsuarioActions } from '../hooks/useUsuarioActions';
+ 
+import {
+  useUsuarioActions,
+} from '../hooks/useUsuarioActions';
  
 const CardUsuario = ({
   id,
@@ -16,12 +20,14 @@ const CardUsuario = ({
   carnet,
   URLImage,
 }) => {
-  const { removeUsuario } = useUsuarioActions();
+  const {
+    removeUsuario,
+  } = useUsuarioActions();
  
   const handleDelete = () => {
     Alert.alert(
       'Eliminar usuario',
-      `¿Deseas eliminar "${nombre}"?`,
+      `¿Deseas eliminar a ${nombre}?`,
       [
         {
           text: 'Cancelar',
@@ -30,9 +36,15 @@ const CardUsuario = ({
         {
           text: 'Eliminar',
           style: 'destructive',
+ 
           onPress: async () => {
             try {
               await removeUsuario(id);
+ 
+              Alert.alert(
+                'Usuario eliminado',
+                'El usuario se eliminó correctamente.'
+              );
             } catch (error) {
               console.error(
                 'Error al eliminar usuario:',
@@ -41,7 +53,8 @@ const CardUsuario = ({
  
               Alert.alert(
                 'Error',
-                'No se pudo eliminar el usuario.'
+                error?.message ||
+                  'No se pudo eliminar el usuario.'
               );
             }
           },
@@ -52,39 +65,56 @@ const CardUsuario = ({
  
   return (
     <View style={styles.card}>
- 
       {URLImage ? (
         <Image
-          source={{ uri: URLImage }}
+          source={{
+            uri: URLImage,
+          }}
           style={styles.image}
           resizeMode="cover"
         />
-      ) : null}
+      ) : (
+        <View
+          style={styles.noImage}
+        >
+          <Text
+            style={styles.noImageText}
+          >
+            Sin imagen
+          </Text>
+        </View>
+      )}
  
       <Text style={styles.nombre}>
-        {nombre}
+        {nombre || 'Sin nombre'}
       </Text>
  
-      <Text style={styles.label}>
-        Fecha de nacimiento:
-      </Text>
+      <View style={styles.info}>
+        <Text style={styles.label}>
+          Fecha de nacimiento:
+        </Text>
  
-      <Text style={styles.text}>
-        {fechaNacimiento}
-      </Text>
+        <Text style={styles.text}>
+          {fechaNacimiento ||
+            'No registrada'}
+        </Text>
+      </View>
  
-      <Text style={styles.label}>
-        Carnet:
-      </Text>
+      <View style={styles.info}>
+        <Text style={styles.label}>
+          Carnet:
+        </Text>
  
-      <Text style={styles.text}>
-        {carnet}
-      </Text>
+        <Text style={styles.text}>
+          {carnet ||
+            'No registrado'}
+        </Text>
+      </View>
  
       {URLImage ? (
-        <>
+        <View style={styles.info}>
           <Text style={styles.label}>
-            URL:
+            URL de imagen:
           </Text>
  
           <Text
@@ -93,14 +123,18 @@ const CardUsuario = ({
           >
             {URLImage}
           </Text>
-        </>
+        </View>
       ) : null}
  
       <TouchableOpacity
         style={styles.deleteButton}
         onPress={handleDelete}
       >
-        <Text style={styles.deleteButtonText}>
+        <Text
+          style={
+            styles.deleteButtonText
+          }
+        >
           Eliminar
         </Text>
       </TouchableOpacity>
@@ -110,65 +144,89 @@ const CardUsuario = ({
  
 export default CardUsuario;
  
-const styles = StyleSheet.create({
-  card: {
-    backgroundColor: '#fff',
-    padding: 18,
-    marginVertical: 8,
-    borderRadius: 10,
-    shadowColor: '#000',
-    shadowOffset: {
-      width: 0,
-      height: 2,
+const styles =
+  StyleSheet.create({
+    card: {
+      backgroundColor: '#ffffff',
+      borderRadius: 12,
+      padding: 16,
+      marginBottom: 15,
+ 
+      shadowColor: '#000',
+      shadowOffset: {
+        width: 0,
+        height: 2,
+      },
+      shadowOpacity: 0.15,
+      shadowRadius: 5,
+ 
+      elevation: 4,
     },
-    shadowOpacity: 0.1,
-    shadowRadius: 5,
-    elevation: 3,
-  },
  
-  image: {
-    width: '100%',
-    height: 180,
-    borderRadius: 8,
-    marginBottom: 15,
-    backgroundColor: '#eee',
-  },
+    image: {
+      width: '100%',
+      height: 180,
+      borderRadius: 10,
+      marginBottom: 15,
+      backgroundColor: '#eeeeee',
+    },
  
-  nombre: {
-    fontSize: 20,
-    fontWeight: 'bold',
-    marginBottom: 14,
-  },
+    noImage: {
+      width: '100%',
+      height: 140,
+      borderRadius: 10,
+      marginBottom: 15,
+      backgroundColor: '#e5e7eb',
+      justifyContent: 'center',
+      alignItems: 'center',
+    },
  
-  label: {
-    fontSize: 14,
-    fontWeight: 'bold',
-    color: '#555',
-    marginTop: 5,
-  },
+    noImageText: {
+      color: '#6b7280',
+      fontSize: 16,
+      fontWeight: '600',
+    },
  
-  text: {
-    fontSize: 16,
-    marginBottom: 5,
-  },
+    nombre: {
+      fontSize: 22,
+      fontWeight: 'bold',
+      color: '#222222',
+      marginBottom: 12,
+    },
  
-  url: {
-    fontSize: 13,
-    color: '#0288d1',
-    marginBottom: 10,
-  },
+    info: {
+      marginBottom: 9,
+    },
  
-  deleteButton: {
-    backgroundColor: '#ff4d4d',
-    padding: 12,
-    borderRadius: 6,
-    marginTop: 15,
-  },
+    label: {
+      fontSize: 14,
+      fontWeight: 'bold',
+      color: '#555555',
+      marginBottom: 3,
+    },
  
-  deleteButtonText: {
-    color: '#fff',
-    fontWeight: 'bold',
-    textAlign: 'center',
-  },
-});
+    text: {
+      fontSize: 16,
+      color: '#222222',
+    },
+ 
+    url: {
+      fontSize: 13,
+      color: '#0288d1',
+    },
+ 
+    deleteButton: {
+      backgroundColor: '#d32f2f',
+      paddingVertical: 13,
+      borderRadius: 8,
+      marginTop: 12,
+      alignItems: 'center',
+    },
+ 
+    deleteButtonText: {
+      color: '#ffffff',
+      fontSize: 16,
+      fontWeight: 'bold',
+    },
+  });
  

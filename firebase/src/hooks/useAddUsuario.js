@@ -1,43 +1,82 @@
-import { useEffect, useState } from 'react';
-import { collection, onSnapshot, orderBy, query } from 'firebase/firestore';
+import { useState } from 'react';
+import {
+  addDoc,
+  collection,
+  serverTimestamp,
+} from 'firebase/firestore';
+ 
 import { database } from '../config/firebase';
  
-export const useUsuario = () => {
-  const [usuarios, setUsuarios] = useState([]);
-  const [loading, setLoading] = useState(true);
-  const [error, setError] = useState(null);
+export const useAddUsuario = () => {
+  const [saving, setSaving] = useState(false);
  
-  useEffect(() => {
-    const q = query(
-      collection(database, 'usuarios'),
-      orderBy('creado', 'desc')
-    );
+  const addUser = async ({
+    nombre,
+    fechaNacimiento,
+    carnet,
+    URLImage,
+  }) => {
+    if (!nombre || !nombre.trim()) {
+      throw new Error(
+        'El nombre del estudiante es obligatorio.'
+      );
+    }
  
-    const unsubscribe = onSnapshot(
-      q,
-      (querySnapshot) => {
-        const docs = querySnapshot.docs.map((item) => ({
-          id: item.id,
-          ...item.data(),
-        }));
+    if (
+      !fechaNacimiento ||
+      !fechaNacimiento.trim()
+    ) {
+      throw new Error(
+        'La fecha de nacimiento es obligatoria.'
+      );
+    }
  
-        setUsuarios(docs);
-        setError(null);
-        setLoading(false);
-      },
-      (snapshotError) => {
-        console.error('Error al obtener usuarios:', snapshotError);
-        setError('No se pudieron cargar los usuarios.');
-        setLoading(false);
-      }
-    );
+    if (!carnet || !carnet.trim()) {
+      throw new Error(
+        'El carnet institucional es obligatorio.'
+      );
+    }
  
-    return unsubscribe;
-  }, []);
+    const cleanName = nombre.trim();
+ 
+    const cleanFecha =
+      fechaNacimiento.trim();
+ 
+    const cleanCarnet = carnet.trim();
+ 
+    const cleanURL =
+      URLImage?.trim() || '';
+ 
+    try {
+      setSaving(true);
+ 
+      const docRef = await addDoc(
+        collection(database, 'usuarios'),
+        {
+          nombre: cleanName,
+          fechaNacimiento: cleanFecha,
+          carnet: cleanCarnet,
+          URLImage: cleanURL,
+          creado: serverTimestamp(),
+        }
+      );
+ 
+      return docRef;
+    } catch (error) {
+      console.error(
+        'Error guardando usuario en Firestore:',
+        error
+      );
+ 
+      throw error;
+    } finally {
+      setSaving(false);
+    }
+  };
  
   return {
-    usuarios,
-    loading,
-    error,
+    addUser,
+    saving,
   };
 };
+ 

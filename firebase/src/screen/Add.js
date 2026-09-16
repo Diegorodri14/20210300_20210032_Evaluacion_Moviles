@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+ 
 import {
   ActivityIndicator,
   Alert,
@@ -11,15 +12,30 @@ import {
   TouchableOpacity,
   View,
 } from 'react-native';
-import { useUsuario } from '../hooks/useAddUsuario';
+ 
+import {
+  useAddUsuario,
+} from '../hooks/useAddUsuario';
  
 const Add = ({ navigation }) => {
-  const { addUser, saving } = useUsuario();
+  const {
+    addUser,
+    saving,
+  } = useAddUsuario();
  
-  const [nombre, setNombre] = useState('');
-  const [fechaNacimiento, setFechaNacimiento] = useState('');
-  const [carnet, setCarnet] = useState('');
-  const [URLImage, setURLImage] = useState('');
+  const [nombre, setNombre] =
+    useState('');
+ 
+  const [
+    fechaNacimiento,
+    setFechaNacimiento,
+  ] = useState('');
+ 
+  const [carnet, setCarnet] =
+    useState('');
+ 
+  const [URLImage, setURLImage] =
+    useState('');
  
   const goToHome = () => {
     navigation.goBack();
@@ -27,6 +43,12 @@ const Add = ({ navigation }) => {
  
   const agregarUsuario = async () => {
     try {
+      if (!addUser) {
+        throw new Error(
+          'La función addUser no está disponible.'
+        );
+      }
+ 
       await addUser({
         nombre,
         fechaNacimiento,
@@ -44,12 +66,17 @@ const Add = ({ navigation }) => {
           },
         ]
       );
+ 
     } catch (error) {
-      console.error('Error al agregar usuario:', error);
+      console.error(
+        'Error al agregar usuario:',
+        error
+      );
  
       Alert.alert(
         'Error',
-        error.message || 'No se pudo agregar el usuario.'
+        error?.message ||
+          'No se pudo agregar el usuario.'
       );
     }
   };
@@ -57,78 +84,103 @@ const Add = ({ navigation }) => {
   return (
     <KeyboardAvoidingView
       style={styles.container}
-      behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
+      behavior={
+        Platform.OS === 'ios'
+          ? 'padding'
+          : 'height'
+      }
     >
       <ScrollView
-        contentContainerStyle={styles.scrollContent}
+        contentContainerStyle={
+          styles.scrollContent
+        }
         keyboardShouldPersistTaps="handled"
       >
         <Text style={styles.title}>
           Agregar Estudiante
         </Text>
  
-        <View style={styles.inputContainer}>
+        <View
+          style={styles.inputContainer}
+        >
           <Text style={styles.label}>
             Nombre:
           </Text>
  
           <TextInput
             style={styles.input}
-            onChangeText={setNombre}
             value={nombre}
+            onChangeText={setNombre}
             placeholder="Ej. Juan Pérez"
           />
         </View>
  
-        <View style={styles.inputContainer}>
+        <View
+          style={styles.inputContainer}
+        >
           <Text style={styles.label}>
             Fecha de Nacimiento:
           </Text>
  
           <TextInput
             style={styles.input}
-            onChangeText={setFechaNacimiento}
             value={fechaNacimiento}
+            onChangeText={
+              setFechaNacimiento
+            }
             placeholder="Ej. 25/12/2004"
           />
         </View>
  
-        <View style={styles.inputContainer}>
+        <View
+          style={styles.inputContainer}
+        >
           <Text style={styles.label}>
             Carnet Institucional:
           </Text>
  
           <TextInput
             style={styles.input}
-            onChangeText={setCarnet}
             value={carnet}
+            onChangeText={setCarnet}
             placeholder="Ej. 20210300"
           />
         </View>
  
-        <View style={styles.inputContainer}>
+        <View
+          style={styles.inputContainer}
+        >
           <Text style={styles.label}>
             URL de imagen:
           </Text>
  
           <TextInput
             style={styles.input}
-            onChangeText={setURLImage}
             value={URLImage}
+            onChangeText={setURLImage}
             placeholder="https://..."
             autoCapitalize="none"
+            autoCorrect={false}
           />
         </View>
  
         <TouchableOpacity
-          style={styles.button}
+          style={[
+            styles.button,
+            saving &&
+              styles.buttonDisabled,
+          ]}
           onPress={agregarUsuario}
           disabled={saving}
         >
           {saving ? (
-            <ActivityIndicator color="#fff" />
+            <ActivityIndicator
+              color="#ffffff"
+            />
           ) : (
-            <Text style={styles.buttonText}>
+            <Text
+              style={styles.buttonText}
+            >
               Agregar estudiante
             </Text>
           )}
@@ -139,8 +191,12 @@ const Add = ({ navigation }) => {
           onPress={goToHome}
           disabled={saving}
         >
-          <Text style={styles.backButtonText}>
-            Volver a Home
+          <Text
+            style={
+              styles.backButtonText
+            }
+          >
+            Volver
           </Text>
         </TouchableOpacity>
       </ScrollView>
@@ -158,16 +214,16 @@ const styles = StyleSheet.create({
  
   scrollContent: {
     flexGrow: 1,
-    alignItems: 'center',
     justifyContent: 'center',
     padding: 20,
   },
  
   title: {
-    fontSize: 24,
+    fontSize: 26,
     fontWeight: 'bold',
-    marginBottom: 20,
     textAlign: 'center',
+    marginBottom: 25,
+    color: '#ffffff',
   },
  
   inputContainer: {
@@ -175,53 +231,57 @@ const styles = StyleSheet.create({
     padding: 16,
     backgroundColor: '#67A99A',
     marginBottom: 16,
-    borderRadius: 8,
+    borderRadius: 10,
   },
  
   label: {
     fontSize: 16,
+    fontWeight: '600',
     marginBottom: 8,
-    color: '#333',
+    color: '#ffffff',
   },
  
   input: {
-    height: 44,
-    borderColor: '#ccc',
+    height: 46,
+    backgroundColor: '#ffffff',
     borderWidth: 1,
-    borderRadius: 6,
-    paddingHorizontal: 10,
-    backgroundColor: '#fff',
-    width: '100%',
+    borderColor: '#cccccc',
+    borderRadius: 7,
+    paddingHorizontal: 12,
+    fontSize: 16,
   },
  
   button: {
     backgroundColor: '#69B4A1',
-    padding: 13,
-    borderRadius: 7,
-    marginTop: 8,
-    width: '100%',
+    paddingVertical: 15,
+    borderRadius: 8,
     alignItems: 'center',
+    marginTop: 5,
+  },
+ 
+  buttonDisabled: {
+    opacity: 0.6,
   },
  
   buttonText: {
-    color: 'white',
+    color: '#ffffff',
+    fontSize: 16,
     fontWeight: 'bold',
-    textAlign: 'center',
   },
  
   backButton: {
-    borderColor: '#0288d1',
     borderWidth: 1,
-    padding: 13,
-    borderRadius: 7,
-    marginTop: 12,
-    width: '100%',
+    borderColor: '#ffffff',
+    paddingVertical: 14,
+    borderRadius: 8,
     alignItems: 'center',
+    marginTop: 12,
   },
  
   backButtonText: {
-    color: '#0288d1',
-    fontWeight: 'bold',
+    color: '#ffffff',
+    fontSize: 16,
+    fontWeight: '600',
   },
 });
  
