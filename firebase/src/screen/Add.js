@@ -16,16 +16,16 @@ import {
   const Add = ({navigation}) => {
     const { addUser, saving} = useAddUsuario();
     const [nombre, setNombre] = useState('');
-    const [fechaNacimiento, setFechaNacimiento] = useState('');
+    const [fecha, setFechaNacimiento] = useState('');
     const [carnet, setCarnet] = useState('');
-    const [URLImage, setURLImage] = useState('');
+    const [URL, setURLImage] = useState('');
   
 
   const goToHome = () => navigation.goBack();
 
   const agregarUsuario = async () => {
     try {
-        await addUser({nombre, fechaNacimiento, carnet, URLImage});
+        await addUser({nombre, fecha, carnet, URL});
         Alert.alert('Usuario Agregado', 'El usuario se ha agregado correctamente.'[{text : 'OK', onPress: goToHome}]);
     } catch (error) {
         console.error('Error al agregar producto:', error);

@@ -13,7 +13,7 @@ import { useAuth } from '../hooks/useAuth';
 import { useUsuario } from '../hooks/useUsuario';
 
 const Home = ({ navigation }) => {
-  const { productos, loading, error } = useUsuario();
+  const { usuarios, loading, error } = useUsuario();
   const { user, logout } = useAuth();
 
   const handleLogout = async () => {
@@ -56,9 +56,9 @@ const Home = ({ navigation }) => {
         <View style={styles.centerContent}>
           <Text style={styles.errorText}>{error}</Text>
         </View>
-      ) : productos.length > 0 ? (
+      ) : usuarios.length > 0 ? (
         <FlatList
-          data={productos}
+          data={usuarios}
           renderItem={renderItem}
           keyExtractor={(item) => item.id}
           contentContainerStyle={styles.list}

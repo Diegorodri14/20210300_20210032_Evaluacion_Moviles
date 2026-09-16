@@ -2,10 +2,10 @@ import React from 'react';
 import { ActivityIndicator, StyleSheet, View } from 'react-native';
 import { NavigationContainer } from '@react-navigation/native';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
-import Add from '../screens/Add';
-import Home from '../screens/Home';
-import Login from '../screens/Login';
-import Register from '../screens/Register';
+import Add from '../screen/Add';
+import Home from '../screen/Home';
+import Login from '../screen/Login';
+import Register from '../screen/Register';
 import { useAuth } from '../hooks/useAuth';
 
 const Stack = createNativeStackNavigator();
