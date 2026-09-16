@@ -1,24 +1,24 @@
 import { initializeApp } from 'firebase/app';
 import { getAuth } from 'firebase/auth';
 import { getFirestore } from 'firebase/firestore';
-import {
-  API_KEY,
-  AUTH_DOMAIN,
-  PROJECT_ID,
-  MESSAGING_SENDER_ID,
-  APP_ID,
-} from '@env';
-
+ 
 const firebaseConfig = {
-  apiKey: API_KEY,
-  authDomain: AUTH_DOMAIN,
-  projectId: PROJECT_ID,
-  messagingSenderId: MESSAGING_SENDER_ID,
-  appId: APP_ID,
+  apiKey: process.env.EXPO_PUBLIC_FIREBASE_API_KEY,
+  authDomain: process.env.EXPO_PUBLIC_FIREBASE_AUTH_DOMAIN,
+  projectId: process.env.EXPO_PUBLIC_FIREBASE_PROJECT_ID,
+  messagingSenderId:
+    process.env.EXPO_PUBLIC_FIREBASE_MESSAGING_SENDER_ID,
+  appId: process.env.EXPO_PUBLIC_FIREBASE_APP_ID,
 };
-
+ 
 const app = initializeApp(firebaseConfig);
+ 
 const database = getFirestore(app);
 const auth = getAuth(app);
-
-export { app, auth, database };
+ 
+export {
+  app,
+  auth,
+  database,
+};
+ 

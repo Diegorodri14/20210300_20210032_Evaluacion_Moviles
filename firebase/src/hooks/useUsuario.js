@@ -1,15 +1,18 @@
 import { useEffect, useState } from 'react';
 import { collection, onSnapshot, orderBy, query } from 'firebase/firestore';
 import { database } from '../config/firebase';
-
-export const useUsers = () => {
+ 
+export const useUsuario = () => {
   const [usuarios, setUsuarios] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
-
+ 
   useEffect(() => {
-    const q = query(collection(database, 'usuarios'), orderBy('creado', 'desc'));
-
+    const q = query(
+      collection(database, 'usuarios'),
+      orderBy('creado', 'desc')
+    );
+ 
     const unsubscribe = onSnapshot(
       q,
       (querySnapshot) => {
@@ -17,7 +20,7 @@ export const useUsers = () => {
           id: item.id,
           ...item.data(),
         }));
-
+ 
         setUsuarios(docs);
         setError(null);
         setLoading(false);
@@ -28,9 +31,14 @@ export const useUsers = () => {
         setLoading(false);
       }
     );
-
+ 
     return unsubscribe;
   }, []);
-
-  return { usuarios, loading, error };
+ 
+  return {
+    usuarios,
+    loading,
+    error,
+  };
 };
+ 
